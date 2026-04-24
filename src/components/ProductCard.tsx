@@ -1,4 +1,6 @@
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { cn } from "@/lib/utils";
+import { useProductCart } from "@/stores/productCartStore";
 
 export interface Product {
   image: { thumbnail: string; mobile: string; tablet: string; desktop: string };
@@ -8,6 +10,9 @@ export interface Product {
 }
 
 function ProductCard({ image, name, category, price }: Product) {
+  const cart = useProductCart((state) => state.cart);
+  const quantity = cart.find((item) => item.name === name)?.quantity ?? 0;
+
   return (
     <div>
       <div className="relative mb-400">
@@ -17,7 +22,10 @@ function ProductCard({ image, name, category, price }: Product) {
           <img
             src={image.mobile}
             alt={name}
-            className="h-auto w-full rounded-lg border-2 border-transparent"
+            className={cn(
+              "h-auto w-full rounded-lg border-2 border-transparent",
+              { "border-red": quantity > 0 },
+            )}
           />
         </picture>
         <AddToCartButton
