@@ -25,6 +25,7 @@
   --spacing-150: 12px;
   --spacing-100: 8px;
   --spacing-50: 4px;
+  --spacing-0: 0px;
 }
 
 @layer base {
@@ -35,5 +36,19 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scroll {
+    overflow: hidden;
   }
 }

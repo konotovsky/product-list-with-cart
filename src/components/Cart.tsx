@@ -4,16 +4,22 @@ import { RemoveItemButton } from "@/components/RemoveItemButton";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { Trees } from "lucide-react";
 
-function Cart() {
+interface CartProps {
+  onClick: () => void;
+}
+
+function Cart({ onClick }: CartProps) {
   const cart = useProductCart((state) => state.cart);
+  const removeFromCart = useProductCart((state) => state.removeFromCart);
   const total = cart.reduce((sum, item) => {
     return sum + item.quantity * item.price;
   }, 0);
 
   return (
-    <div className="space-y-300 rounded-xl bg-white p-300">
+    <div className="space-y-300 rounded-xl bg-white p-300 xl:sticky xl:top-1100">
       <h2 className="text-red text-2xl font-bold">
-        Your Cart (<span>{cart.length}</span>)
+        Your Cart (
+        <span>{cart.reduce((total, item) => total + item.quantity, 0)}</span>)
       </h2>
       <div>
         <div className="flex flex-col gap-200">
@@ -41,7 +47,9 @@ function Cart() {
                           </span>
                         </p>
                       </div>
-                      <RemoveItemButton />
+                      <RemoveItemButton
+                        onClick={() => removeFromCart(item.name)}
+                      />
                     </div>
                     <hr className="text-rose-100" />
                   </li>
@@ -60,7 +68,7 @@ function Cart() {
                   <span className="font-semibold">carbon-neutral</span> delivery
                 </p>
               </div>
-              <PrimaryButton className="max-w-full">
+              <PrimaryButton onClick={onClick} className="max-w-full">
                 Confirm Order
               </PrimaryButton>
             </>

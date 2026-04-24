@@ -1,4 +1,5 @@
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { useProductCart } from "@/stores/productCartStore";
 
 export interface Product {
   image: { thumbnail: string; mobile: string; tablet: string; desktop: string };
@@ -20,7 +21,11 @@ function ProductCard({ image, name, category, price }: Product) {
             className="h-auto w-full rounded-lg border-2 border-transparent"
           />
         </picture>
-        <AddToCartButton className="absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <AddToCartButton
+          productName={name}
+          productPrice={price}
+          className="absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
       </div>
       <div className="space-y-50">
         <h3 className="text-sm text-rose-500">{category}</h3>
